@@ -38,6 +38,9 @@ Python 3.13.5 зафиксирован вместе с digest базового �
 Workflow запускается при каждом `push`, при `pull_request` и вручную
 через **Actions -> API test in Docker -> Run workflow**.
 
+[Успешный запуск GitHub Actions от 20.10.2026](https://github.com/Tiipok/mts-homework-3/actions/runs/39438327176/job/118681192576).
+Шаги `Build Docker image` и `Run API test in the built image` завершились успешно.
+
 Job выполняет цепочку:
 
 ```text
