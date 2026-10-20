@@ -1,0 +1,73 @@
+$ docker run --rm --network none api-test
+============================= test session starts ==============================
+platform linux -- Python 3.13.5, pytest-9.1.1, pluggy-1.7.0 -- /usr/local/bin/python
+rootdir: /app
+configfile: pytest.ini
+testpaths: tests
+collecting ... collected 1 item
+
+tests/test_rest.py::test_create_patch_get_post FAILED                    [100%]
+
+=================================== FAILURES ===================================
+__________________________ test_create_patch_get_post __________________________
+/usr/local/lib/python3.13/site-packages/urllib3/connection.py:239: in _new_conn
+    sock = connection.create_connection(
+/usr/local/lib/python3.13/site-packages/urllib3/util/connection.py:60: in create_connection
+    for res in socket.getaddrinfo(host, port, family, socket.SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/socket.py:977: in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   socket.gaierror: [Errno -3] Temporary failure in name resolution
+
+The above exception was the direct cause of the following exception:
+/usr/local/lib/python3.13/site-packages/urllib3/connectionpool.py:793: in urlopen
+    response = self._make_request(
+/usr/local/lib/python3.13/site-packages/urllib3/connectionpool.py:494: in _make_request
+    raise new_e
+/usr/local/lib/python3.13/site-packages/urllib3/connectionpool.py:470: in _make_request
+    self._validate_conn(conn)
+/usr/local/lib/python3.13/site-packages/urllib3/connectionpool.py:1125: in _validate_conn
+    conn.connect()
+/usr/local/lib/python3.13/site-packages/urllib3/connection.py:827: in connect
+    self.sock = sock = self._new_conn()
+                       ^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/urllib3/connection.py:246: in _new_conn
+    raise NameResolutionError(self.host, self, e) from e
+E   urllib3.exceptions.NameResolutionError: HTTPSConnection(host='playground.nileslabs.com', port=443): Failed to resolve 'playground.nileslabs.com' ([Errno -3] Temporary failure in name resolution)
+
+The above exception was the direct cause of the following exception:
+/usr/local/lib/python3.13/site-packages/requests/adapters.py:645: in send
+    resp = conn.urlopen(
+/usr/local/lib/python3.13/site-packages/urllib3/connectionpool.py:847: in urlopen
+    retries = retries.increment(
+/usr/local/lib/python3.13/site-packages/urllib3/util/retry.py:555: in increment
+    raise MaxRetryError(_pool, url, reason) from reason  # type: ignore[arg-type]
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   urllib3.exceptions.MaxRetryError: HTTPSConnectionPool(host='playground.nileslabs.com', port=443): Max retries exceeded with url: /api/v1/posts (Caused by NameResolutionError("HTTPSConnection(host='playground.nileslabs.com', port=443): Failed to resolve 'playground.nileslabs.com' ([Errno -3] Temporary failure in name resolution)"))
+
+During handling of the above exception, another exception occurred:
+tests/test_rest.py:11: in test_create_patch_get_post
+    response = rest_api("POST", "/posts", json=original)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/conftest.py:50: in request
+    response = session.request(method, url, timeout=TIMEOUT, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/requests/sessions.py:592: in request
+    resp = self.send(prep, **send_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/requests/sessions.py:706: in send
+    r = adapter.send(request, **kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/requests/adapters.py:678: in send
+    raise ConnectionError(e, request=request)
+E   requests.exceptions.ConnectionError: HTTPSConnectionPool(host='playground.nileslabs.com', port=443): Max retries exceeded with url: /api/v1/posts (Caused by NameResolutionError("HTTPSConnection(host='playground.nileslabs.com', port=443): Failed to resolve 'playground.nileslabs.com' ([Errno -3] Temporary failure in name resolution)"))
+------------------------------ Captured log call -------------------------------
+INFO REQUEST POST https://playground.nileslabs.com/api/v1/posts
+Headers: {"User-Agent": "python-requests/2.33.1", "Accept-Encoding": "gzip, deflate", "Accept": "application/json", "Connection": "keep-alive", "Content-Type": "application/json"}
+JSON: {"title": "Lab 2: 4d830522f3b24ac1941f77dac92108c8", "body": "Это поле должно сохраниться после изменения заголовка."}
+=========================== short test summary info ============================
+FAILED tests/test_rest.py::test_create_patch_get_post - requests.exceptions.C...
+============================== 1 failed in 0.10s ===============================
+
+Exit code: 1

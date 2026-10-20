@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="2.284" timestamp="2026-10-20T16:42:43.509478+03:00" hostname="tipoks-MacBook-Air.local"><testcase classname="tests.test_rest" name="test_create_patch_get_post" time="2.262" /></testsuite></testsuites>
